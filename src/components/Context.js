@@ -1,12 +1,6 @@
-import React, {
-  Children,
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-const Theme = createContext();
+const ThemeContext = createContext();
 
 export const Provider = ({ children }) => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -15,9 +9,14 @@ export const Provider = ({ children }) => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const values = { theme, setTheme };
+  const values = {
+    theme,
+    setTheme,
+  };
 
-  return <Theme.Provider value={values}>{children}</Theme.Provider>;
+  return (
+    <ThemeContext.Provider value={values}>{children}</ThemeContext.Provider>
+  );
 };
 
-export const useTheme = () => useContext(Theme);
+export const useTheme = () => useContext(ThemeContext);
